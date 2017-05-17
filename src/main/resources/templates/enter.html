@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>P2P Chat Register</title>
+</head>
+<body>
+<h1>Register</h1>
+<form th:action="@{/enterUser/} "  method="post">
+  <input type="text" th:name="name"  />
+  <input type="submit" />
+</form>
+</body>
+</html>
