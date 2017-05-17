@@ -34,7 +34,11 @@ public class MainController {
   @RequestMapping("/enter")
   public String enter(Model model) {
     model.addAttribute("error", missingUserName);
-    return "enter";
+    if(userRepository.count() > 0) {
+      return "redirect:/";
+    } else {
+      return "enter";
+    }
   }
 
   @RequestMapping("/enterUser")
