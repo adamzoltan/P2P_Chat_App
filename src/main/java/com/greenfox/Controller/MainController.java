@@ -16,25 +16,37 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 
+  String missingUserName = "";
+
   @Autowired
   UserRepository userRepository;
 
   @RequestMapping("/")
   public String index(Model model) {
     model.addAttribute("users", userRepository.findAll());
-    return "index";
+    if(userRepository.count() == 0) {
+      return "redirect:/enter";
+    } else {
+      return "index";
+    }
   }
 
   @RequestMapping("/enter")
-  public String enter() {
+  public String enter(Model model) {
+    model.addAttribute("error", missingUserName);
     return "enter";
   }
 
   @RequestMapping("/enterUser")
   public String addUser(Model model, @RequestParam(name = "name", required = false) String name) {
-    model.addAttribute("currentName", name);
-    userRepository.save(new User(name));
-    return "redirect:/";
+    if (name.isEmpty()) {
+      missingUserName = "The username field is empty";
+      return "redirect:/enter";
+    } else {
+      userRepository.save(new User(name));
+      missingUserName = "";
+      return "redirect:/";
+    }
   }
 
 }

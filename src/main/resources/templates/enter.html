@@ -5,10 +5,11 @@
   <title>P2P Chat Register</title>
 </head>
 <body>
-<h1>Register</h1>
-<form th:action="@{/enterUser/} "  method="post">
+<h1>Enter</h1>
+<p th:text="${error}"></p>
+<form th:action="@{/enterUser} "  method="post">
   <input type="text" th:name="name"  />
-  <input type="submit" />
+  <input type="submit" name="Enter"/>
 </form>
 </body>
 </html>
