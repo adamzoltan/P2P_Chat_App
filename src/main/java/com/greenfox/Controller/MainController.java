@@ -23,7 +23,8 @@ public class MainController {
 
   @RequestMapping("/")
   public String index(Model model) {
-    model.addAttribute("users", userRepository.findAll());
+    model.addAttribute("user", userRepository.findOne(1));
+    model.addAttribute("error", missingUserName);
     if(userRepository.count() == 0) {
       return "redirect:/enter";
     } else {
@@ -42,13 +43,23 @@ public class MainController {
   }
 
   @RequestMapping("/enterUser")
-  public String addUser(Model model, @RequestParam(name = "name", required = false) String name) {
+  public String addUser(@RequestParam(name = "name", required = false) String name) {
     if (name.isEmpty()) {
       missingUserName = "The username field is empty";
       return "redirect:/enter";
     } else {
       userRepository.save(new User(name));
       missingUserName = "";
+      return "redirect:/";
+    }
+  }
+
+  @RequestMapping("/updateUser")
+  public String updateUser(@RequestParam(name = "name", required = false) String name) {
+    if(name.isEmpty()) {
+      missingUserName = "The username field is empty";
+      return "redirect:/";
+    } else {
       return "redirect:/";
     }
   }

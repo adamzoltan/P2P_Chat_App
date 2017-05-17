@@ -6,8 +6,9 @@
 </head>
 <body>
 <h1>Peer to Peer Chat Program</h1>
-<form th:action="@{/update} "  method="post">
-  <input type="text" th:name="name"  />
+<p th:text="${error}"></p>
+<form th:action="@{/updateUser} "  method="post">
+  <input type="text" th:name="name" th:placeholder="${user.name}" />
   <input type="submit" value="Update"/>
 </form>
 </body>
