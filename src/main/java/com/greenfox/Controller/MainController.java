@@ -1,4 +1,4 @@
-package com.greenfox.Contoller;
+package com.greenfox.Controller;
 
 import com.greenfox.Modell.User;
 import com.greenfox.Repository.UserRepository;
@@ -17,13 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
 
   String missingUserName = "";
-
+  int userCounter = 1;
   @Autowired
   UserRepository userRepository;
 
   @RequestMapping("/")
   public String index(Model model) {
-    model.addAttribute("user", userRepository.findOne(1));
+    model.addAttribute("user", userRepository.findOne(userCounter));
     model.addAttribute("error", missingUserName);
     if(userRepository.count() == 0) {
       return "redirect:/enter";
@@ -60,6 +60,11 @@ public class MainController {
       missingUserName = "The username field is empty";
       return "redirect:/";
     } else {
+      User newUser = new User(name);
+      userRepository.deleteAll();
+      userRepository.save(newUser);
+      userCounter++;
+      missingUserName = "";
       return "redirect:/";
     }
   }
