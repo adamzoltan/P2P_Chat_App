@@ -76,4 +76,11 @@ public class MainController {
     }
   }
 
+  @RequestMapping("/newMessage")
+  public String newMessage(@RequestParam(name = "message", required = true)String message) {
+    Message newMessage = new Message(userRepository.findOne(userCounter).getName(),message);
+    messageRepository.save(newMessage);
+    return "redirect:/";
+  }
+
 }

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * Created by Adam on 2017. 05. 18..
@@ -21,6 +22,7 @@ public class Message {
   private long id;
   private String userName;
   private String text;
+  private Date date;
 
   public Message() {
   }
@@ -29,6 +31,7 @@ public class Message {
     this.id = generateId();
     this.userName = userName;
     this.text = text;
+    this.date = new Date();
   }
 
   public long generateId() {
