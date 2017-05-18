@@ -1,11 +1,12 @@
 package com.greenfox.Controller;
 
+import com.greenfox.Modell.Message;
 import com.greenfox.Modell.User;
+import com.greenfox.Repository.MessageRepository;
 import com.greenfox.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -16,13 +17,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 
+  Message message = new Message("App", "Hi there! Submit your message using the send button!");
+
   String missingUserName = "";
   int userCounter = 1;
   @Autowired
   UserRepository userRepository;
+  @Autowired
+  MessageRepository messageRepository;
 
   @RequestMapping("/")
   public String index(Model model) {
+    messageRepository.save(message);
+    model.addAttribute("messages", messageRepository.findAll());
     model.addAttribute("user", userRepository.findOne(userCounter));
     model.addAttribute("error", missingUserName);
     if(userRepository.count() == 0) {
