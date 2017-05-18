@@ -79,7 +79,13 @@ public class MainController {
   @RequestMapping("/newMessage")
   public String newMessage(@RequestParam(name = "message")String message) {
     Message newMessage = new Message(userRepository.findOne(userCounter).getName(),message);
-    messageRepository.save(newMessage);
+    while(messageRepository.exists(newMessage.getId())) {
+      newMessage = new Message(userRepository.findOne(userCounter).getName(),message);
+    }
+    if(!message.isEmpty()) {
+      messageRepository.save(newMessage);
+      return "redirect:/";
+    } else
     return "redirect:/";
   }
 
