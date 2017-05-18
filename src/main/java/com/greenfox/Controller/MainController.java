@@ -29,7 +29,7 @@ public class MainController {
   @RequestMapping("/")
   public String index(Model model) {
     messageRepository.save(message);
-    model.addAttribute("messages", messageRepository.findAll());
+    model.addAttribute("messages", messageRepository.findAllByOrderByTimestampAsc());
     model.addAttribute("user", userRepository.findOne(userCounter));
     model.addAttribute("error", missingUserName);
     if(userRepository.count() == 0) {
@@ -77,7 +77,7 @@ public class MainController {
   }
 
   @RequestMapping("/newMessage")
-  public String newMessage(@RequestParam(name = "message", required = true)String message) {
+  public String newMessage(@RequestParam(name = "message")String message) {
     Message newMessage = new Message(userRepository.findOne(userCounter).getName(),message);
     messageRepository.save(newMessage);
     return "redirect:/";
