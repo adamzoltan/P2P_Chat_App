@@ -17,9 +17,14 @@
     <p></p>
 </ul>
 <form th:action="@{/newMessage} "  method="post">
-  <input type="text" th:name="message" />
+  <input type="text" th:name="message"/>
   <input type="submit" value="Send"/>
 </form>
-
+<button onclick="myFunction()">Refresh</button>
+<script>
+    function myFunction() {
+        location.reload();
+    }
+</script>
 </body>
 </html>
