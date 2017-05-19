@@ -1,15 +1,11 @@
 package com.greenfox.Modell;
 
-import com.greenfox.Repository.MessageRepository;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * Created by Adam on 2017. 05. 18..
@@ -21,7 +17,7 @@ public class Message {
 
   @Id
   private long id;
-  private String userName;
+  private String username;
   private String text;
   private long timestamp;
 
@@ -29,9 +25,9 @@ public class Message {
   public Message() {
   }
 
-  public Message(String userName, String text) {
+  public Message(String username, String text) {
     this.id = generateId();
-    this.userName = userName;
+    this.username = username;
     this.text = text;
     this.timestamp = timeStamp();
   }
@@ -44,5 +40,12 @@ public class Message {
   public long timeStamp() {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     return timestamp.getTime();
+  }
+
+  public void createMessage(ReceivedMessage receivedMessage) {
+    this.setId(receivedMessage.getMessage().getId());
+    this.setUsername(receivedMessage.getMessage().getUsername());
+    this.setText(receivedMessage.getMessage().getText());
+    this.setTimestamp(receivedMessage.getMessage().getTimestamp());
   }
 }
