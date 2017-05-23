@@ -1,9 +1,6 @@
 package com.greenfox.Service;
 
-import com.greenfox.Modell.Client;
-import com.greenfox.Modell.Message;
-import com.greenfox.Modell.ReceivedMessage;
-import com.greenfox.Modell.User;
+import com.greenfox.Modell.*;
 import com.greenfox.Repository.MessageRepository;
 import com.greenfox.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +48,6 @@ public class MessageOperator {
   public void forwardMessage(ReceivedMessage receivedMessage) {
     message.createMessage(receivedMessage);
     RestTemplate restTemplate = new RestTemplate();
-    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), receivedMessage);
+    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), receivedMessage, Status.class );
   }
 }
