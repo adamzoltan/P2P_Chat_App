@@ -23,8 +23,6 @@ public class MessageOperator {
   @Autowired
   Client client;
 
-  @Autowired
-  Message message;
 
   public MessageOperator() {
   }
@@ -46,6 +44,7 @@ public class MessageOperator {
   }
 
   public void forwardMessage(ReceivedMessage receivedMessage) {
+    Message message = new Message();
     message.createMessage(receivedMessage);
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), receivedMessage, Status.class );
