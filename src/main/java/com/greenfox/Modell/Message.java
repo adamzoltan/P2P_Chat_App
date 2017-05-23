@@ -2,6 +2,7 @@ package com.greenfox.Modell;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 /**
  * Created by Adam on 2017. 05. 18..
  */
+@Component
 @Entity
 @Getter
 @Setter

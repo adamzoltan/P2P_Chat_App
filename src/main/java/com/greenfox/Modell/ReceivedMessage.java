@@ -13,5 +13,4 @@ public class ReceivedMessage {
   public Message message;
   public Client client;
 
-
 }

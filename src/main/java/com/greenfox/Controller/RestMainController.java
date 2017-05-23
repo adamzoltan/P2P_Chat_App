@@ -4,6 +4,7 @@ import com.greenfox.Modell.Message;
 import com.greenfox.Modell.ReceivedMessage;
 import com.greenfox.Modell.Status;
 import com.greenfox.Repository.MessageRepository;
+import com.greenfox.Service.MessageOperator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,14 +17,16 @@ public class RestMainController {
 
   @Autowired
   MessageRepository messageRepository;
+  @Autowired
+  MessageOperator messageOperator;
+
 
   @PostMapping("/api/message/receive")
   @CrossOrigin("*")
   public Status receiveMessage(@RequestBody ReceivedMessage receivedMessage) {
-    Message message = new Message();
-    Status okStatus = new Status("ok");
-    message.createMessage(receivedMessage);
-    messageRepository.save(message);
-    return okStatus ;
+    messageOperator.forwardMessage(receivedMessage);
+    Status status = new Status();
+    status.setStatus("ok");
+    return status;
   }
 }
