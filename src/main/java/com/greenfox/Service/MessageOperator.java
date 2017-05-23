@@ -44,13 +44,11 @@ public class MessageOperator {
   }
 
   public void forwardMessage(ReceivedMessage receivedMessage) {
-
     Message message = new Message();
-    messageRepository.save(message);
     message.createMessage(receivedMessage);
+    messageRepository.save(message);
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), receivedMessage, Status.class );
-
   }
 
 }
