@@ -10,7 +10,6 @@ import lombok.Setter;
 @Setter
 public class Status {
   private String status;
-  private String message;
 
   public Status() {
 
