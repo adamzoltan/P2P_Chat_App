@@ -26,7 +26,7 @@ public class RestMainController {
   public Status receiveMessage(@RequestBody ReceivedMessage receivedMessage) {
     Status status = new Status();
     status.setStatus("ok");
-    messageOperator.forwardMessage(receivedMessage);
+//    messageOperator.forwardMessage(receivedMessage);
     return status;
   }
 
