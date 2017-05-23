@@ -48,7 +48,7 @@ public class MessageOperator {
     message.createMessage(receivedMessage);
     messageRepository.save(message);
     RestTemplate restTemplate = new RestTemplate();
-    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), receivedMessage, Status.class );
+    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), receivedMessage);
   }
 
 }
