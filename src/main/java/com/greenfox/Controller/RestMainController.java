@@ -24,9 +24,8 @@ public class RestMainController {
   @PostMapping("/api/message/receive")
   @CrossOrigin("*")
   public Status receiveMessage(@RequestBody ReceivedMessage receivedMessage) {
-    Status status = new Status();
-    status.setStatus("ok");
-    messageOperator.forwardMessage(receivedMessage);
-    return status;
+
+    return messageOperator.forwardMessage(receivedMessage);
   }
+  
 }
