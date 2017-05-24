@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by Adam on 2017. 05. 17..
@@ -75,6 +76,8 @@ public class MainController {
   @RequestMapping("/newMessage")
   public String newMessage(@RequestParam(name = "message")String message) {
     messageOperator.saveAndBroadcastMessage(message);
+    RestTemplate restTemplate = new RestTemplate();
+    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
     return "redirect:/";
   }
 
