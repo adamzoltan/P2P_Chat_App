@@ -19,8 +19,8 @@ public class RestMainController {
   @Autowired
   MessageValidator messageValidator;
 
-  @PostMapping("/api/message/receive")
   @CrossOrigin("*")
+  @PostMapping("/api/message/receive")
   public Status receiveMessage(@RequestBody MessageToBroadcast messageToBroadcast) {
    if(messageOperator.messageAlreadyExists(messageToBroadcast)) {
      Status ok = new okStatus("ok");
