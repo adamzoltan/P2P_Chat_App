@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ReceivedMessage {
+public class MessageToBroadcast {
   public Message message;
   public Client client;
 

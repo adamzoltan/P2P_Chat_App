@@ -5,6 +5,8 @@ import com.greenfox.Modell.User;
 import com.greenfox.Repository.MessageRepository;
 import com.greenfox.Repository.UserRepository;
 import com.greenfox.Service.MessageOperator;
+import com.greenfox.Service.RandomIdGenerator;
+import com.greenfox.Service.UserOperator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 
-  Message message = new Message("App", "Hi there! Submit your message using the send button!");
   String missingUserName = "";
   @Autowired
   UserRepository userRepository;
@@ -26,18 +27,17 @@ public class MainController {
   MessageRepository messageRepository;
   @Autowired
   MessageOperator messageOperator;
+  @Autowired
+  UserOperator userOperator;
 
   @RequestMapping("/")
   public String index(Model model) {
-    messageRepository.save(message);
     model.addAttribute("messages", messageRepository.findAllByOrderByTimestampAsc());
     model.addAttribute("user", userRepository.findOne(1));
     model.addAttribute("error", missingUserName);
     if(userRepository.count() == 0) {
       return "redirect:/enter";
-    } else {
-      return "index";
-    }
+    } else return "index";
   }
 
   @RequestMapping("/enter")
@@ -45,9 +45,7 @@ public class MainController {
     model.addAttribute("error", missingUserName);
     if(userRepository.count() > 0) {
       return "redirect:/";
-    } else {
-      return "enter";
-    }
+    } else return "enter";
   }
 
   @RequestMapping("/enterUser")
@@ -68,9 +66,7 @@ public class MainController {
       missingUserName = "The username field is empty";
       return "redirect:/";
     } else {
-      User newUser = userRepository.findOne(1);
-      newUser.setName(name);
-      userRepository.save(newUser);
+      userOperator.updateUser(name);
       missingUserName = "";
       return "redirect:/";
     }

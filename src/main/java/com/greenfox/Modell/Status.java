@@ -1,18 +1,9 @@
 package com.greenfox.Modell;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
- * Created by Adam on 2017. 05. 22..
+ * Created by Adam on 2017. 05. 24..
  */
-@Getter
-@Setter
-public class Status {
+public abstract class Status {
   private String status;
-
-  public Status() {
-
-  }
-
+  private String message;
 }

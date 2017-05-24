@@ -21,35 +21,40 @@ public class MessageOperator {
   UserRepository userRepository;
 
   @Autowired
-  Client client;
-
+  RandomIdGenerator randomIdGenerator;
 
   public MessageOperator() {
   }
 
   public void saveAndBroadcastMessage(String message) {
     Message newMessage = new Message(userRepository.findOne(1).getName(),message);
-    while(messageRepository.exists(newMessage.getId())) {
-      newMessage = new Message(userRepository.findOne(1).getName(),message);
-    }
-    if(!message.isEmpty()) {
-      messageRepository.save(newMessage);
-    }
-    ReceivedMessage receivedMessage = new ReceivedMessage();
-    client.setId(System.getenv("CHAT_APP_UNIQUE_ID"));
-    receivedMessage.setMessage(newMessage);
-    receivedMessage.setClient(client);
+    randomIdGenerator.generateId(newMessage);
+    messageRepository.save(newMessage);
+    MessageToBroadcast messageToBroadcast = new MessageToBroadcast();
+    messageToBroadcast.getClient().setId(System.getenv("CHAT_APP_UNIQUE_ID"));
+    messageToBroadcast.setMessage(newMessage);
     RestTemplate restTemplate = new RestTemplate();
-    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), receivedMessage);
+    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
   }
 
-  public void forwardMessage(ReceivedMessage receivedMessage) {
+  public void createMessage(Message message, MessageToBroadcast messageToBroadcast) {
+    message.setId(messageToBroadcast.getMessage().getId());
+    message.setUsername(messageToBroadcast.getMessage().getUsername());
+    message.setText(messageToBroadcast.getMessage().getText());
+    message.setTimestamp(messageToBroadcast.getMessage().getTimestamp());
+  }
+
+  public void saveAndForwardMessage(MessageToBroadcast messageToBroadcast) {
     Message message = new Message();
-    message.createMessage(receivedMessage);
+    createMessage(message, messageToBroadcast);
     messageRepository.save(message);
     RestTemplate restTemplate = new RestTemplate();
-    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), receivedMessage);
-
+    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
   }
 
+  public boolean messageAlreadyExists(MessageToBroadcast messageToBroadcast) {
+    if (messageRepository.exists(messageToBroadcast.getMessage().getId())) {
+      return true;
+    } else return false;
+  }
 }

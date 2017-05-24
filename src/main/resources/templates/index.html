@@ -11,10 +11,14 @@
   Your username: <input type="text" th:name="name" th:placeholder="${user.name}" />
   <input type="submit" value="Update"/>
 </form>
+<ul>
+  <li>App</li>
+  <span> Hi there! Submit your message using the send button!</span>
+</ul>
 <ul th:each="message : ${messages}" >
-    <li  th:text="${message.username}" />
-    <span  th:text="${message.text}" />
-    <p></p>
+  <li  th:text="${message.username}" />
+  <span  th:text="${message.text}" />
+  <p></p>
 </ul>
 <form th:action="@{/newMessage} "  method="post">
   <input type="text" th:name="message"/>

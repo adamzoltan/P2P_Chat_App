@@ -1,13 +1,11 @@
 package com.greenfox.Controller;
 
-import com.greenfox.Modell.Message;
-import com.greenfox.Modell.ReceivedMessage;
-import com.greenfox.Modell.Status;
-import com.greenfox.Repository.MessageRepository;
+import com.greenfox.Modell.*;
 import com.greenfox.Service.MessageOperator;
+import com.greenfox.Service.MessageValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+
 
 /**
  * Created by Adam on 2017. 05. 19..
@@ -19,20 +17,24 @@ public class RestMainController {
   @Autowired
   MessageOperator messageOperator;
   @Autowired
-  MessageRepository messageRepository;
+  MessageValidator messageValidator;
 
   @PostMapping("/api/message/receive")
   @CrossOrigin("*")
-  public Status receiveMessage(@RequestBody ReceivedMessage receivedMessage) {
-    Status status = new Status();
-    status.setStatus("ok");
-    Message message = new Message();
-    message.createMessage(receivedMessage);
-    messageRepository.save(message);
-    RestTemplate restTemplate = new RestTemplate();
-    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), receivedMessage);
-
-    return status;
+  public Status receiveMessage(@RequestBody MessageToBroadcast messageToBroadcast) {
+   if(messageOperator.messageAlreadyExists(messageToBroadcast)) {
+     Status ok = new okStatus("ok");
+     return ok;
+   } else {
+     if (messageValidator.validateMessage(messageToBroadcast)) {
+       Status ok = new okStatus("ok");
+       messageOperator.saveAndForwardMessage(messageToBroadcast);
+       return ok;
+     } else {
+       Status error = new errorStatus("ok", "Missing fields:");
+       return error;
+     }
+   }
   }
 
 }
