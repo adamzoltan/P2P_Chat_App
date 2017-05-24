@@ -34,7 +34,8 @@ public class MessageOperator {
     MessageToBroadcast messageToBroadcast = new MessageToBroadcast();
     messageToBroadcast.getClient().setId(System.getenv("CHAT_APP_UNIQUE_ID"));
     messageToBroadcast.setMessage(newMessage);
-
+    RestTemplate restTemplate = new RestTemplate();
+    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
   }
 
   public void saveAndForwardMessage(MessageToBroadcast messageToBroadcast) {
