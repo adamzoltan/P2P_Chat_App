@@ -18,14 +18,15 @@ public class RestMainController {
   private MessageOperator messageOperator;
   @Autowired
   private MessageValidator messageValidator;
-  @Autowired
-  private MessageRepository messageRepository;
 
   @CrossOrigin("*")
   @PostMapping("/api/message/receive")
   public Status receiveMessage(@RequestBody MessageToBroadcast messageToBroadcast) {
    if (messageOperator.messageAlreadyExists(messageToBroadcast)) {
-     System.out.println("true");
+     System.out.println();
+     System.out.println();
+     System.out.println();
+     System.out.println("OK");
      return new okStatus();
    } else {
      if (messageValidator.validateMessage(messageToBroadcast)) {
