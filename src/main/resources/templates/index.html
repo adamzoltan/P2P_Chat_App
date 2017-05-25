@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8" />
+  <link href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" rel="stylesheet"/>
   <title>P2P Chat</title>
 </head>
 <body>
@@ -15,8 +16,8 @@
   <li>App</li>
   <span> Hi there! Submit your message using the send button!</span>
 </ul>
-<ul th:each="message : ${messages}" >
-  <li  th:text="${message.username}" />
+<ul class="list-group" th:each="message : ${messages}" >
+  <li class="list-group-item list-group-item-success" th:text="${message.username}" />
   <span  th:text="${message.text}" />
   <p></p>
 </ul>
@@ -30,5 +31,7 @@
         location.reload();
     }
 </script>
+<script src="webjars/jquery/1.11.1/jquery.min.js"></script>
+<script src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 </body>
 </html>
