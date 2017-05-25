@@ -15,11 +15,8 @@
 
 <h4 class="alert alert-success" role="alert"> App: Hi there! Submit your message using the send button! </h4>
 
-<span th:each="message : ${messages}" />
-  <h3 th:if="${message.username} == ${user.name}"
-      class="alert alert-warning" role="alert" th:text="${message.username} + ': ' + ${message.text}"
-      th:if ="${message.username} != ${user.name}"
-      class="alert alert-info" role="alert" th:text="${message.username} + ': ' + ${message.text}" />
+<h3 th:each="message : ${messages}"
+  class="alert alert-info" role="alert" th:text="${message.username} + ': ' + ${message.text}" />
 
 
 
