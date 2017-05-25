@@ -68,7 +68,9 @@ public class MainController {
 
   @RequestMapping("/newMessage")
   public String newMessage(@RequestParam(name = "message")String message) {
-    messageOperator.saveAndBroadcastMessage(message);
+    messageOperator.broadcastMessage
+            (messageOperator.createBroadcastMessage
+                    (messageOperator.saveNewMessage(message)));
     return "redirect:/";
   }
 

@@ -22,13 +22,13 @@ public class RestMainController {
   @PostMapping("/api/message/receive")
   public Status receiveMessage(@RequestBody MessageToBroadcast messageToBroadcast) {
    if (messageOperator.messageAlreadyExists(messageToBroadcast)) {
-     return new okStatus("ok");
+     return new okStatus();
    } else {
      if (messageValidator.validateMessage(messageToBroadcast)) {
        messageOperator.saveAndForwardMessage(messageToBroadcast);
-       return new okStatus("ok");
+       return new okStatus();
      } else {
-       return new errorStatus("ok", "Missing fields:");
+       return new errorStatus("error", "Missing fields:");
      }
    }
   }

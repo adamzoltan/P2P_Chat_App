@@ -41,6 +41,26 @@ public class MessageOperator {
     restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
   }
 
+  public Message saveNewMessage(String message) {
+    Message newMessage = new Message(userRepository.findOne(1).getName(), message);
+    randomIdGenerator.generateId(newMessage);
+    messageRepository.save(newMessage);
+    return newMessage;
+  }
+
+  public MessageToBroadcast createBroadcastMessage(Message message) {
+    Client client = new Client(System.getenv("CHAT_APP_UNIQUE_ID"));
+    MessageToBroadcast messageToBroadcast = new MessageToBroadcast();
+    messageToBroadcast.setClient(client);
+    messageToBroadcast.setMessage(message);
+    return messageToBroadcast;
+  }
+
+  public void broadcastMessage(MessageToBroadcast messageToBroadcast) {
+    RestTemplate restTemplate = new RestTemplate();
+    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
+  }
+
   public void saveAndForwardMessage(MessageToBroadcast messageToBroadcast) {
     Message newMessage = messageToBroadcast.getMessage();
     messageRepository.save(newMessage);

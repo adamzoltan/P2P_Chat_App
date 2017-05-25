@@ -9,12 +9,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class okStatus extends Status{
-  private String status;
+  private String status = "ok";
 
   public okStatus() {
   }
 
-  public okStatus(String status) {
-    this.status = status;
-  }
 }
