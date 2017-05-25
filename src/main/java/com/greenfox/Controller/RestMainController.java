@@ -1,6 +1,7 @@
 package com.greenfox.Controller;
 
 import com.greenfox.Modell.*;
+import com.greenfox.Repository.MessageRepository;
 import com.greenfox.Service.MessageOperator;
 import com.greenfox.Service.MessageValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,14 @@ public class RestMainController {
   private MessageOperator messageOperator;
   @Autowired
   private MessageValidator messageValidator;
+  @Autowired
+  private MessageRepository messageRepository;
 
   @CrossOrigin("*")
   @PostMapping("/api/message/receive")
   public Status receiveMessage(@RequestBody MessageToBroadcast messageToBroadcast) {
    if (messageOperator.messageAlreadyExists(messageToBroadcast)) {
+     System.out.println("true");
      return new okStatus();
    } else {
      if (messageValidator.validateMessage(messageToBroadcast)) {
