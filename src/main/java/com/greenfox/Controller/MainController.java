@@ -1,7 +1,6 @@
 package com.greenfox.Controller;
 
 import com.greenfox.Modell.Message;
-import com.greenfox.Modell.MessageToBroadcast;
 import com.greenfox.Modell.User;
 import com.greenfox.Repository.MessageRepository;
 import com.greenfox.Repository.UserRepository;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Created by Adam on 2017. 05. 17..
@@ -31,8 +29,6 @@ public class MainController {
   MessageOperator messageOperator;
   @Autowired
   UserOperator userOperator;
-  @Autowired
-  RandomIdGenerator randomIdGenerator;
 
   @RequestMapping("/")
   public String index(Model model) {
@@ -78,15 +74,7 @@ public class MainController {
 
   @RequestMapping("/newMessage")
   public String newMessage(@RequestParam(name = "message")String message) {
-    Message newMessage = new Message(userRepository.findOne(1).getName(),message);
-    randomIdGenerator.generateId(newMessage);
-    messageRepository.save(newMessage);
-    MessageToBroadcast messageToBroadcast = new MessageToBroadcast();
-    messageToBroadcast.getClient().setId(System.getenv("CHAT_APP_UNIQUE_ID"));
-    messageToBroadcast.setMessage(newMessage);
-    RestTemplate restTemplate = new RestTemplate();
-    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
-
+    messageOperator.saveAndBroadcastMessage(message);
     return "redirect:/";
   }
 

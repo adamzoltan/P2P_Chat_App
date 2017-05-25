@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-
 /**
  * Created by Adam on 2017. 05. 23..
  */
@@ -39,10 +38,10 @@ public class MessageOperator {
   }
 
   public void saveAndForwardMessage(MessageToBroadcast messageToBroadcast) {
-    Message message = messageToBroadcast.getMessage();
-    messageRepository.save(message);
-//    RestTemplate restTemplate = new RestTemplate();
-//    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
+    Message newMessage = messageToBroadcast.getMessage();
+    messageRepository.save(newMessage);
+    RestTemplate restTemplate = new RestTemplate();
+    restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
   }
 
   public boolean messageAlreadyExists(MessageToBroadcast messageToBroadcast) {

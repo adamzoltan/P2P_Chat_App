@@ -5,8 +5,6 @@ import com.greenfox.Service.MessageOperator;
 import com.greenfox.Service.MessageValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
 
 /**
  * Created by Adam on 2017. 05. 19..
@@ -30,8 +28,6 @@ public class RestMainController {
      if (messageValidator.validateMessage(messageToBroadcast)) {
        Status ok = new okStatus("ok");
        messageOperator.saveAndForwardMessage(messageToBroadcast);
-       RestTemplate restTemplate = new RestTemplate();
-       restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
        return ok;
      } else {
        Status error = new errorStatus("ok", "Missing fields:");
