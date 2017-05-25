@@ -13,4 +13,11 @@ public class MessageToBroadcast {
   public Message message;
   public Client client;
 
+  public MessageToBroadcast() {
+  }
+
+  public MessageToBroadcast(Client client) {
+    this.message = message;
+    this.client = client;
+  }
 }

@@ -30,8 +30,9 @@ public class MessageOperator {
     Message newMessage = new Message(userRepository.findOne(1).getName(),message);
     randomIdGenerator.generateId(newMessage);
     messageRepository.save(newMessage);
+    Client client = new Client(System.getenv("CHAT_APP_UNIQUE_ID"));
     MessageToBroadcast messageToBroadcast = new MessageToBroadcast();
-    messageToBroadcast.getClient().setId(System.getenv("CHAT_APP_UNIQUE_ID"));
+    messageToBroadcast.setClient(client);
     messageToBroadcast.setMessage(newMessage);
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
