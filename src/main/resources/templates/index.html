@@ -10,22 +10,26 @@
 <p th:text="${error}"></p>
 <form th:action="@{/updateUser} "  method="post">
   Your username: <input type="text" th:name="name" th:placeholder="${user.name}" />
-  <input type="submit" value="Update"/>
+  <button type="submit" class="btn btn-primary">Update</button>
 </form>
-<ul>
-  <li>App</li>
-  <span> Hi there! Submit your message using the send button!</span>
-</ul>
-<ul class="list-group" th:each="message : ${messages}" >
-  <li class="list-group-item list-group-item-success" th:text="${message.username}" />
-  <span  th:text="${message.text}" />
-  <p></p>
-</ul>
+
+<h4 class="alert alert-success" role="alert"> App: Hi there! Submit your message using the send button! </h4>
+
+<h3 th:each="message : ${messages}"
+   th:if="${message.username} == ${user.name}"
+   class="alert alert-warning" role="alert" th:text="${message.username} + ': ' + ${message.text}" />
+
+<h3 th:each="message : ${messages}"
+   th:if="${message.username} != ${user.name}"
+   class="alert alert-info" role="alert" th:text="${message.username} + ': ' + ${message.text}" />
+
+
 <form th:action="@{/newMessage} "  method="post">
   <input type="text" th:name="message"/>
-  <input type="submit" value="Send"/>
+  <button type="submit" class="btn btn-success">Send</button>
 </form>
-<button onclick="myFunction()">Refresh</button>
+<p></p>
+<button onclick="myFunction()" class="btn btn-info">Refresh</button>
 <script>
     function myFunction() {
         location.reload();
