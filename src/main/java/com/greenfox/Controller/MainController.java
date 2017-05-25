@@ -30,7 +30,7 @@ public class MainController {
 
   @RequestMapping("/")
   public String index(Model model) {
-    model.addAttribute("messages", messageRepository.findAllByOrderByTimestampAsc());
+    model.addAttribute("messages", messageRepository.findAllByOrderByTimestampDesc());
     model.addAttribute("user", userRepository.findOne(1));
     model.addAttribute("error", missingUserName);
     return userRepository.count() == 0 ? "redirect:/enter" : "index";

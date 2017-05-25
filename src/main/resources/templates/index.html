@@ -12,23 +12,20 @@
   Your username: <input type="text" th:name="name" th:placeholder="${user.name}" />
   <button type="submit" class="btn btn-primary">Update</button>
 </form>
-
-<h4 class="alert alert-success" role="alert"> App: Hi there! Submit your message using the send button! </h4>
-
-<h3 th:each="message : ${messages}"
-  class="alert alert-info" role="alert" th:text="${message.username} + ': ' + ${message.text}" />
-
 <form th:action="@{/newMessage} "  method="post">
   <input type="text" th:name="message"/>
   <button type="submit" class="btn btn-success">Send</button>
 </form>
-<p></p>
 <button onclick="myFunction()" class="btn btn-info">Refresh</button>
 <script>
     function myFunction() {
         location.reload();
     }
 </script>
+<h4 class="alert alert-success" role="alert"> App: Hi there! Submit your message using the send button! </h4>
+
+<h3 th:each="message : ${messages}"
+  class="alert alert-info" role="alert" th:text="${message.username} + ': ' + ${message.text}" />
 <script src="webjars/jquery/1.11.1/jquery.min.js"></script>
 <script src="webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
 </body>
