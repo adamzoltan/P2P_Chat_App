@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" http-equiv="refresh" content="30" />
   <link href="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css" rel="stylesheet"/>
   <title>P2P Chat</title>
 </head>
@@ -17,8 +17,6 @@
 
 <h3 th:each="message : ${messages}"
   class="alert alert-info" role="alert" th:text="${message.username} + ': ' + ${message.text}" />
-
-
 
 <form th:action="@{/newMessage} "  method="post">
   <input type="text" th:name="message"/>
