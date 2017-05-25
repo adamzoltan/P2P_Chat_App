@@ -15,25 +15,28 @@ import org.springframework.web.client.RestTemplate;
 public class MessageOperator {
 
   @Autowired
-  MessageRepository messageRepository;
+  private MessageRepository messageRepository;
 
   @Autowired
-  UserRepository userRepository;
+  private UserRepository userRepository;
 
   @Autowired
-  RandomIdGenerator randomIdGenerator;
+  private RandomIdGenerator randomIdGenerator;
 
   public MessageOperator() {
   }
 
   public void saveAndBroadcastMessage(String message) {
-    Message newMessage = new Message(userRepository.findOne(1).getName(),message);
+    Message newMessage = new Message(userRepository.findOne(1).getName(), message);
     randomIdGenerator.generateId(newMessage);
     messageRepository.save(newMessage);
+
     Client client = new Client(System.getenv("CHAT_APP_UNIQUE_ID"));
+
     MessageToBroadcast messageToBroadcast = new MessageToBroadcast();
     messageToBroadcast.setClient(client);
     messageToBroadcast.setMessage(newMessage);
+
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
   }
@@ -41,13 +44,13 @@ public class MessageOperator {
   public void saveAndForwardMessage(MessageToBroadcast messageToBroadcast) {
     Message newMessage = messageToBroadcast.getMessage();
     messageRepository.save(newMessage);
+
     RestTemplate restTemplate = new RestTemplate();
     restTemplate.postForLocation(System.getenv("CHAT_APP_PEER_ADDRESS"), messageToBroadcast);
   }
 
   public boolean messageAlreadyExists(MessageToBroadcast messageToBroadcast) {
-    if (messageRepository.exists(messageToBroadcast.getMessage().getId())) {
-      return true;
-    } else return false;
+    return messageRepository.exists(messageToBroadcast.getMessage().getId());
   }
+
 }

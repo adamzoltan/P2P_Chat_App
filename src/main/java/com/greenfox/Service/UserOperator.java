@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class UserOperator {
 
   @Autowired
-  UserRepository userRepository;
+  private UserRepository userRepository;
 
   public UserOperator() {
   }
@@ -22,4 +22,5 @@ public class UserOperator {
     newUser.setName(name);
     userRepository.save(newUser);
   }
+
 }

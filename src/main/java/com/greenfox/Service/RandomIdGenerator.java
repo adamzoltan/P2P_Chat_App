@@ -10,8 +10,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RandomIdGenerator {
+
   @Autowired
-  MessageRepository messageRepository;
+  private MessageRepository messageRepository;
+
   public RandomIdGenerator() {
   }
 
@@ -22,4 +24,5 @@ public class RandomIdGenerator {
     } while (messageRepository.exists(id));
     message.setId(id);
   }
+
 }

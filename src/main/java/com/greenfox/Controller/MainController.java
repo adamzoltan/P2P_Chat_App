@@ -1,11 +1,9 @@
 package com.greenfox.Controller;
 
-import com.greenfox.Modell.Message;
 import com.greenfox.Modell.User;
 import com.greenfox.Repository.MessageRepository;
 import com.greenfox.Repository.UserRepository;
 import com.greenfox.Service.MessageOperator;
-import com.greenfox.Service.RandomIdGenerator;
 import com.greenfox.Service.UserOperator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,32 +18,28 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class MainController {
 
-  String missingUserName = "";
+  private String missingUserName = "";
   @Autowired
-  UserRepository userRepository;
+  private UserRepository userRepository;
   @Autowired
-  MessageRepository messageRepository;
+  private MessageRepository messageRepository;
   @Autowired
-  MessageOperator messageOperator;
+  private MessageOperator messageOperator;
   @Autowired
-  UserOperator userOperator;
+  private UserOperator userOperator;
 
   @RequestMapping("/")
   public String index(Model model) {
     model.addAttribute("messages", messageRepository.findAllByOrderByTimestampAsc());
     model.addAttribute("user", userRepository.findOne(1));
     model.addAttribute("error", missingUserName);
-    if(userRepository.count() == 0) {
-      return "redirect:/enter";
-    } else return "index";
+    return userRepository.count() == 0 ? "redirect:/enter" : "index";
   }
 
   @RequestMapping("/enter")
   public String enter(Model model) {
     model.addAttribute("error", missingUserName);
-    if(userRepository.count() > 0) {
-      return "redirect:/";
-    } else return "enter";
+    return userRepository.count() > 0 ? "redirect:/" : "enter";
   }
 
   @RequestMapping("/enterUser")

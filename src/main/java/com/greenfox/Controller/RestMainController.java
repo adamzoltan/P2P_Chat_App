@@ -14,24 +14,21 @@ import org.springframework.web.bind.annotation.*;
 public class RestMainController {
 
   @Autowired
-  MessageOperator messageOperator;
+  private MessageOperator messageOperator;
   @Autowired
-  MessageValidator messageValidator;
+  private MessageValidator messageValidator;
 
   @CrossOrigin("*")
   @PostMapping("/api/message/receive")
   public Status receiveMessage(@RequestBody MessageToBroadcast messageToBroadcast) {
-   if(messageOperator.messageAlreadyExists(messageToBroadcast)) {
-     Status ok = new okStatus("ok");
-     return ok;
+   if (messageOperator.messageAlreadyExists(messageToBroadcast)) {
+     return new okStatus("ok");
    } else {
      if (messageValidator.validateMessage(messageToBroadcast)) {
-       Status ok = new okStatus("ok");
        messageOperator.saveAndForwardMessage(messageToBroadcast);
-       return ok;
+       return new okStatus("ok");
      } else {
-       Status error = new errorStatus("ok", "Missing fields:");
-       return error;
+       return new errorStatus("ok", "Missing fields:");
      }
    }
   }

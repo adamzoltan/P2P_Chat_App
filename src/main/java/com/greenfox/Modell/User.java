@@ -22,7 +22,6 @@ public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
-
   private String name;
 
   public User() {
@@ -35,4 +34,5 @@ public class User {
   public String toString() {
     return name;
   }
+
 }

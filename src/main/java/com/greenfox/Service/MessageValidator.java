@@ -11,44 +11,35 @@ import org.springframework.stereotype.Service;
 @Service
 public class MessageValidator {
 
-  @Autowired
-  MessageRepository messageRepository;
-
   public MessageValidator() {
   }
 
   public boolean checkId(MessageToBroadcast messageToBroadcast) {
-    if(messageToBroadcast.getMessage().getId() != 0) {
-      return true;
-    } else return false;
+    return messageToBroadcast.getMessage().getId() != 0;
   }
 
   public boolean checkUsername(MessageToBroadcast messageToBroadcast) {
-    if(messageToBroadcast.getMessage().getUsername() != "null") {
-      return true;
-    } else return false;
+    return messageToBroadcast.getMessage().getUsername() != "null";
   }
 
   public boolean checkTimeStamp(MessageToBroadcast messageToBroadcast) {
-    if(messageToBroadcast.getMessage().getTimestamp() != 0) {
-      return true;
-    } else return false;
+    return messageToBroadcast.getMessage().getTimestamp() != 0;
   }
 
   public boolean checkText(MessageToBroadcast messageToBroadcast) {
-    if(messageToBroadcast.getMessage().getText() != "null") {
-      return true;
-    } else return false;
+    return messageToBroadcast.getMessage().getText() != "null";
   }
 
   public boolean checkClient(MessageToBroadcast messageToBroadcast) {
-    if(messageToBroadcast.getClient().getId() != "null") {
-      return true;
-    } else return false;
+    return messageToBroadcast.getClient().getId() != "null";
   }
+
   public boolean validateMessage(MessageToBroadcast messageToBroadcast) {
-    if(checkId(messageToBroadcast) && checkUsername(messageToBroadcast) && checkTimeStamp(messageToBroadcast) && checkText(messageToBroadcast) && checkClient(messageToBroadcast)) {
-      return true;
-    } else return false;
+    return checkId(messageToBroadcast) &&
+            checkUsername(messageToBroadcast) &&
+            checkTimeStamp(messageToBroadcast) &&
+            checkText(messageToBroadcast) &&
+            checkClient(messageToBroadcast);
   }
+
 }

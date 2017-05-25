@@ -35,7 +35,7 @@ public class Message {
     this.timestamp = timeStamp();
   }
 
-  public long timeStamp() {
+  private long timeStamp() {
     Timestamp timestamp = new Timestamp(System.currentTimeMillis());
     return timestamp.getTime();
   }
