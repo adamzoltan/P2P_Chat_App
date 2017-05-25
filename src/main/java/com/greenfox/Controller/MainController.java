@@ -26,7 +26,7 @@ public class MainController {
   @Autowired
   private MessageOperator messageOperator;
   @Autowired
-  private UserOperator userOperator;
+  UserOperator userOperator;
 
   @RequestMapping("/")
   public String index(Model model) {
@@ -68,9 +68,7 @@ public class MainController {
 
   @RequestMapping("/newMessage")
   public String newMessage(@RequestParam(name = "message")String message) {
-    messageOperator.broadcastMessage
-            (messageOperator.createBroadcastMessage
-                    (messageOperator.saveNewMessage(message)));
+    messageOperator.saveAndBroadcastMessage(message);
     return "redirect:/";
   }
 
