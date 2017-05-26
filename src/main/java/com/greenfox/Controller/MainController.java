@@ -42,28 +42,18 @@ public class MainController {
     return userRepository.count() > 0 ? "redirect:/" : "enter";
   }
 
-  @RequestMapping("/enterUser")
+  @RequestMapping({"/addUser", "/updateUser"})
   public String addUser(@RequestParam(name = "name", required = false) String name) {
     if (name.isEmpty()) {
       missingUserName = "The username field is empty";
-      return "redirect:/enter";
-    } else {
+      return "redirect:/";
+    } else if (userRepository.count() == 0) {
       userRepository.save(new User(name));
       missingUserName = "";
       return "redirect:/";
-    }
-  }
-
-  @RequestMapping("/updateUser")
-  public String updateUser(@RequestParam(name = "name", required = false) String name) {
-    if(name.isEmpty()) {
-      missingUserName = "The username field is empty";
-      return "redirect:/";
-    } else {
+    } else
       userOperator.updateUser(name);
-      missingUserName = "";
       return "redirect:/";
-    }
   }
 
   @RequestMapping("/newMessage")

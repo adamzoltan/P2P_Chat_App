@@ -24,7 +24,7 @@ public class Message {
   private String username;
   private String text;
   private long timestamp;
-  
+
   public Message() {
   }
 
