@@ -53,6 +53,7 @@ public class MainController {
       return "redirect:/";
     } else
       userOperator.updateUser(name);
+      missingUserName = "";
       return "redirect:/";
   }
 
